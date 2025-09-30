@@ -35,23 +35,30 @@ class MiniStatement {
   -recentTransactions: List~Transaction~
 }
 
-class CardReader <<interface>> {
+class CardReader {
   +readCard() Card
   +ejectCard() void
 }
-class PinEntryInterface <<interface>> {
+<<interface>> CardReader
+
+class PinEntryInterface {
   +promptForPin(card: Card) String
   +promptForNewPin() String
   +showMessage(msg: String) void
 }
-class CashDispenser <<interface>> {
+<<interface>> PinEntryInterface
+
+class CashDispenser {
   +canDispense(amountCents: long) boolean
   +dispense(amountCents: long) void
   +getAvailableCashCents() long
 }
-class Printer <<interface>> {
+<<interface>> CashDispenser
+
+class Printer {
   +print(content: String) void
 }
+<<interface>> Printer
 
 class ConsoleCardReader
 class ConsolePinEntry
@@ -65,36 +72,40 @@ ConsolePinEntry ..|> PinEntryInterface
 ConsoleCashDispenser ..|> CashDispenser
 ConsolePrinter ..|> Printer
 
-class AccountRepository <<interface>> {
+class AccountRepository {
   +findById(accountId: String) Optional~Account~
   +save(account: Account) void
 }
+<<interface>> AccountRepository
 class InMemoryAccountRepository
 InMemoryAccountRepository ..|> AccountRepository
 
-class PinService <<interface>> {
+class PinService {
   +verifyPin(account: Account, pin: String) void
   +changePin(account: Account, newPin: String) void
   +hashPin(pin: String) String
 }
+<<interface>> PinService
 class SimplePinService
 SimplePinService ..|> PinService
 
-class TransactionLog <<interface>> {
+class TransactionLog {
   +record(accountId: String, tx: Transaction) void
   +recent(accountId: String, limit: int) List~Transaction~
 }
+<<interface>> TransactionLog
 class InMemoryTransactionLog
 InMemoryTransactionLog ..|> TransactionLog
 
-class MiniStatementService <<interface>> {
+class MiniStatementService {
   +getMiniStatement(accountId: String, limit: int) MiniStatement
 }
+<<interface>> MiniStatementService
 class SimpleMiniStatementService
 SimpleMiniStatementService ..|> MiniStatementService
 SimpleMiniStatementService --> TransactionLog : uses
 
-class AtmState <<interface>> {
+class AtmState {
   +insertCard(context: ATMController) void
   +enterPin(context: ATMController) void
   +withdraw(context: ATMController, amountCents: long) void
@@ -102,6 +113,7 @@ class AtmState <<interface>> {
   +changePin(context: ATMController) void
   +ejectCard(context: ATMController) void
 }
+<<interface>> AtmState
 class IdleState
 class CardInsertedState
 class AuthenticatedState
