@@ -1,3 +1,29 @@
+# 🏧 ATM System — Low Level Design
+
+A Java implementation of an ATM system using the **State design pattern** and hardware abstraction. This is a Low Level Design (LLD) exercise demonstrating clean object-oriented architecture for banking operations.
+
+## Overview
+
+The ATM system models the full lifecycle of an ATM interaction: card insertion, PIN verification, cash withdrawal, balance inquiry, PIN change, and card ejection. It uses the State pattern to manage transitions between ATM states (Idle, HasCard, Authenticated, etc.).
+
+## Features
+
+- State pattern for ATM workflow management
+- Card and Account management
+- Secure PIN handling with hashing
+- Transaction history tracking
+- Mini statement generation
+- Hardware abstraction layer
+
+## Tech Stack
+
+| Component | Technology |
+|-----------|------------|
+| Language  | Java       |
+| Pattern   | State Pattern, LLD |
+
+## Class Diagram
+
 ```mermaid
 classDiagram
 direction TB
